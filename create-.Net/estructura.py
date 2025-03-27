@@ -144,11 +144,11 @@ namespace {project_name}.Controllers
         program_path.unlink()  # Esto eliminará el archivo actual Program.cs
 
     # Crear el nuevo contenido de Program.cs
-    program_text = """
-    using prueba.Interfaces;
+    program_text = f"""
+    using {project_name}.Interfaces;
     using Microsoft.OpenApi.Models;
-    using prueba.Repositories;
-    using prueba.Data;
+    using {project_name}.Repositories;
+    using {project_name}.Data;
     using Microsoft.EntityFrameworkCore;
 
     var builder = WebApplication.CreateBuilder(args);
@@ -156,14 +156,14 @@ namespace {project_name}.Controllers
     // Configuración de servicios
     // Configurar OpenAPI/Swagger
     builder.Services.AddSwaggerGen(c =>
-    {
+    {{
         c.SwaggerDoc("v1", new OpenApiInfo
-        {
+        {{
             Title = "Mi API",
             Version = "v1",
             Description = "Ejemplo de API con Swagger en ASP.NET Core"
-        });
-    });
+        }});
+    }});
 
     // Agregar DbContext para SQLite
     builder.Services.AddDbContext<AppDbContext>(options =>
@@ -177,25 +177,25 @@ namespace {project_name}.Controllers
 
     // Habilitar CORS (si necesitas permitir solicitudes desde otros dominios)
     builder.Services.AddCors(options =>
-    {
+    {{
         options.AddPolicy("AllowAll", builder =>
             builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-    });
+    }});
 
     var app = builder.Build();
 
     // Habilitar Swagger en desarrollo
     if (app.Environment.IsDevelopment())
-    {
+    {{
         app.UseSwagger();
         app.UseSwaggerUI(c =>
-        {
+        {{
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1");
             c.RoutePrefix = string.Empty; // Hace que Swagger esté disponible en la raíz
-        });
-    }
+        }});
+    }}
 
     // Configuración de CORS (si es necesario)
     app.UseCors("AllowAll");

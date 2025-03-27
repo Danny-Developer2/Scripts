@@ -29,8 +29,11 @@ def main():
     api = args.api or input("Nombre del proyecto Web API: ")
 
     base_path = Path(args.path).resolve()
-    os.makedirs(base_path, exist_ok=True)
-    print_ok(f"Ruta base: {base_path}")
+    if not base_path.exists():
+        os.makedirs(base_path, exist_ok=True)
+        print_ok(f"Created new directory: {base_path}")
+    else:
+        print_ok(f"Using existing directory: {base_path}")
 
     # Crear la solución
     ejecutar_comando(f"dotnet new sln -n {sln}", cwd=base_path)
